@@ -1,39 +1,29 @@
 <!doctype html>
-<html lang="pl"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Trader Academy — Test V1</title>
-<style>
-:root{--bg:#071018;--p:#0d1a24;--l:#203441;--t:#f4f7f9;--m:#91a2ad;--g:#25e26b;--r:#ff5364;--b:#36a8ff;--y:#f5b93d}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{min-height:100vh;padding-bottom:82px}.top{padding:20px 16px;display:flex;justify-content:space-between}.brand{font-size:21px;font-weight:800}.pro{color:#ffc64d;font-size:11px;border:1px solid #765818;border-radius:8px;padding:4px 7px}.screen{max-width:900px;margin:auto;padding:8px 16px}.hero,.card{background:var(--p);border:1px solid var(--l);border-radius:17px;padding:16px;margin-bottom:12px}.hero{background:linear-gradient(135deg,#0d2a20,#0d1c28)}h1{margin:0 0 7px;font-size:26px}h2{margin:4px 0 12px}h3{margin:3px 0 8px}.muted{color:var(--m)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.btn{border:0;border-radius:11px;padding:11px 14px;background:#1a2a35;color:white;font-weight:750}.green{background:var(--g);color:#04130a}.red{background:var(--r);color:#25070b}.blue{background:var(--b);color:#03111a}.gold{background:var(--y);color:#1c1202}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.bar{height:8px;background:#1c2b34;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--g)}.list{display:grid;gap:9px}.lesson{display:flex;justify-content:space-between;align-items:center;gap:10px}.tag{font-size:10px;color:#9fe9bb;background:#0c3b27;border-radius:7px;padding:4px 7px}.tag.lock{color:#b1bdc5;background:#1b2830}.nav{position:fixed;bottom:0;left:0;right:0;background:#071018;border-top:1px solid var(--l);display:grid;grid-template-columns:repeat(6,1fr);z-index:5;padding:6px 3px}.nav button{border:0;background:none;color:#82929c;font-size:10px}.nav button.active{color:var(--g)}.icon{display:block;font-size:18px}.ladder{overflow:auto;background:#050c12;border:1px solid #263b48;border-radius:14px}.ladder table{width:100%;min-width:500px;border-collapse:collapse;text-align:center}.ladder td,.ladder th{padding:8px;border-bottom:1px solid #152630}.back{color:#77d8ff}.lay{color:#ff8b9a}.price{font-weight:800}.hot{background:#102d22}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.profile{display:flex;gap:12px;align-items:center}.avatar{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#0b6b3a;font-weight:900}@media(min-width:700px){.grid{grid-template-columns:repeat(3,1fr)}}
-</style></head><body><div class="app">
-<div class="top"><div class="brand">📈 Trader Academy <span class="pro">PRO</span></div><button class="btn" onclick="show('settings')">⚙️</button></div>
-<main id="screen" class="screen"></main>
-<nav class="nav">
-<button data-id="home" onclick="show('home')"><span class="icon">🏠</span>Home</button>
-<button data-id="lessons" onclick="show('lessons')"><span class="icon">📚</span>Lekcje</button>
-<button data-id="training" onclick="show('training')"><span class="icon">🎯</span>Trening</button>
-<button data-id="sim" onclick="show('sim')"><span class="icon">📊</span>Simulator</button>
-<button data-id="progress" onclick="show('progress')"><span class="icon">🏆</span>Postęp</button>
-<button data-id="community" onclick="show('community')"><span class="icon">👥</span>Community</button>
-</nav></div>
+
+<html lang="pl">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta http-equiv="refresh" content="0;url=Trader_Academy_V2_index.html">
+
+<title>Trader Academy PRO</title>
+
 <script>
-let xp=2350,si=0;
-const S=[
-["Momentum i blokada",3.60,[120,240,410,820,1450],[180,260,520,880,2100],"WAIT"],
-["Zjadanie blokady",3.55,[300,420,680,1150,1900],[80,140,220,360,520],"BACK"],
-["Fałszywe wybicie",3.50,[260,440,760,980,1500],[210,330,470,900,1300],"WAIT"]];
-function show(id){document.querySelectorAll(".nav button").forEach(x=>x.classList.toggle("active",x.dataset.id===id));let e=document.getElementById("screen");
-if(id==="home")e.innerHTML='<div class="hero"><h1>Witaj w Trader Academy 👋</h1><p>Ucz się czytać rynek i ćwicz bez ryzyka prawdziwych pieniędzy.</p><div class="row" style="margin-top:14px"><button class="btn green" onclick="show(\'sim\')">Rozpocznij trening</button><button class="btn" onclick="show(\'lessons\')">Lekcje</button></div></div><div class="grid"><div class="card"><div class="muted">Poziom</div><h2>7</h2>Timing Trader</div><div class="card"><div class="muted">XP</div><h2>'+xp.toLocaleString()+'</h2><div class="bar"><i style="width:68%"></i></div></div><div class="card"><div class="muted">⭐ Rada dnia</div><p>Nie wchodź tylko dlatego, że widzisz dużą kwotę. Obserwuj, czy rynek ją zjada.</p></div></div>';
-if(id==="lessons"){let a=["Podstawy Exchange","Ticki i ruch ceny","BACK vs LAY","Spread i płynność","Czytanie rynku","Blokady i zjadanie","Momentum","Timing wejścia","Fałszywe potwierdzenie","Ladder — kolumny i głębokość rynku"];e.innerHTML='<div class="hero"><h1>📚 Lekcje</h1><p>Od podstaw do zaawansowanego czytania rynku.</p></div><div class="list">'+a.map((x,i)=>'<div class="card lesson"><div><b>Lekcja '+(i+1)+'</b><div>'+x+'</div><span class="tag '+(i>8?'lock':'')+'">'+(i<9?'Ukończona':'🔒 Zablokowana')+'</span></div><button class="btn '+(i<9?'green':'')+'" '+(i<9?'onclick="lesson('+i+')"':'')+'>'+(i<9?'Otwórz':'🔒')+'</button></div>').join("")+'</div>'}
-if(id==="training")e.innerHTML='<div class="hero"><h1>🎯 Trening</h1><p>Ćwicz konkretne umiejętności.</p></div><div class="grid">'+["Momentum","Blokady","Zjadanie pieniędzy","Tempo ruchu","Timing wejścia","Timing wyjścia","Fałszywe ruchy","BACK / LAY / WAIT"].map((x,i)=>'<div class="card"><h3>'+x+'</h3><p class="muted">Scenariusze adaptacyjne</p><button class="btn green" onclick="show(\'sim\')">Ćwicz</button></div>').join("")+'</div>';
-if(id==="sim")sim();
-if(id==="progress")e.innerHTML='<div class="hero"><h1>🏆 Mój postęp</h1><p>Twoje wyniki i umiejętności.</p></div><div class="grid"><div class="card"><div class="muted">Poziom</div><h2>7</h2>Timing Trader</div><div class="card"><div class="muted">XP</div><h2>'+xp.toLocaleString()+'</h2>Do poziomu 8: 1,100 XP</div><div class="card"><div class="muted">Decyzje</div><h2>82%</h2>Ostatnie 50 scenariuszy</div></div><div class="list">'+[["Blokady","90%"],["Momentum","88%"],["Płynność","84%"],["Timing wejścia","78%"],["Timing wyjścia","65%"]].map(a=>'<div class="card"><div class="lesson"><b>'+a[0]+'</b><b>'+a[1]+'</b></div><div class="bar" style="margin-top:8px"><i style="width:'+a[1]+'"></i></div></div>').join("")+'</div>';
-if(id==="community")e.innerHTML='<div class="hero"><h1>👥 Community</h1><p>Pomysły, rady, komentarze i głosowania.</p><button class="btn gold" onclick="alert(\'Formularz nowego posta będzie w kolejnym buildzie.\')">+ Dodaj post</button></div><div class="card"><h3>⭐ Rada dnia</h3><p>Czasem najlepszą decyzją tradera jest WAIT.</p></div><div class="card"><div class="profile"><div class="avatar">MR</div><div><b>MarketReader</b><div class="muted">Poziom 7 • 8 min temu</div></div></div><p>Blokada została zjedzona, ale tempo ruchu było bardzo wolne. Ja nadal czekałbym na potwierdzenie.</p><div class="row"><button class="btn">👍 43</button><button class="btn">👎 3</button><button class="btn">💬 18</button></div></div><div class="card"><h3>🗳️ Głosowanie</h3><p>Ladder z historią transakcji</p><div class="bar"><i style="width:72%"></i></div><p class="muted">142 głosy</p></div>';
-if(id==="settings")e.innerHTML='<div class="hero"><h1>⚙️ Ustawienia</h1><p>Dostosuj aplikację do siebie.</p></div><div class="grid"><div class="card"><h3>🌍 Język</h3><select class="btn" style="width:100%"><option>🇵🇱 Polski</option><option>🇬🇧 English UK</option><option>🇩🇪 Deutsch</option><option>🇪🇸 Español</option><option>🇫🇷 Français</option></select></div><div class="card"><h3>🎯 Trening</h3><p>Poziom: Średni</p><label><input type="checkbox" checked> Pokazuj wskazówki</label></div><div class="card"><h3>🔔 Powiadomienia</h3><p>Rada dnia <input type="checkbox" checked></p><p>Przypomnienia <input type="checkbox" checked></p></div><div class="card"><h3>🔐 Prywatność</h3><p><input type="checkbox"> Prywatny profil</p><p><input type="checkbox" checked> Pokazuj statystyki</p></div><div class="card"><h3>👑 Trader Academy PRO</h3><p class="muted">Zaawansowane statystyki, więcej scenariuszy, pełny Ladder Lab i brak reklam.</p><button class="btn gold" onclick="alert(\'PRO zachowujemy jako płatny moduł — płatności dodamy przed publikacją.\')">Poznaj PRO</button></div></div>';
-}
-function lesson(i){document.getElementById("screen").innerHTML='<div class="hero"><span class="tag">LEKCJA '+(i+1)+'</span><h1>Obserwuj zanim wejdziesz</h1><p>Teoria → obserwacja → decyzja → konsekwencja → analiza.</p></div><div class="card"><h2>🧠 Pytanie</h2><p>Co robisz, gdy pojawia się duża blokada?</p><button class="btn" style="width:100%;margin:4px 0" onclick="answer(\'A\')">A. Wchodzę natychmiast</button><button class="btn" style="width:100%;margin:4px 0" onclick="answer(\'B\')">B. Czekam na potwierdzenie</button><button class="btn" style="width:100%;margin:4px 0" onclick="answer(\'C\')">C. Gram przeciwko ruchowi</button></div>'}
-function answer(a){let ok=a==="B";if(ok)xp+=20;document.getElementById("screen").innerHTML='<div class="hero"><h1>'+ (ok?"✅ Bardzo dobrze!":"⚠️ Materiał do nauki")+'</h1><p>'+ (ok?"Sama duża kwota nie jest sygnałem. Potwierdzenie jest ważniejsze.":"Duża kwota sama w sobie nie wystarcza. Obserwuj jej zachowanie.")+'</p></div><div class="card"><h3>+'+(ok?20:0)+' XP</h3><button class="btn green" onclick="show(\'sim\')">Przejdź do ćwiczenia</button></div>'}
-function sim(){let s=S[si];let rows=s[2].map((b,i)=>{let p=(s[1]+(.10-i*.05)).toFixed(2);return '<tr class="'+(i===2?'hot':'')+'"><td class="back">£'+b.toLocaleString()+'</td><td class="price">'+p+'</td><td class="lay">£'+s[3][i].toLocaleString()+'</td></tr>'}).join("");document.getElementById("screen").innerHTML='<div class="hero"><span class="tag">SCENARIUSZ '+(si+1)+'/3</span><h1>📊 '+s[0]+'</h1><p>Obserwuj pieniądze, tempo i zachowanie ceny.</p></div><div class="ladder"><table><tr><th>BACK</th><th>KURS</th><th>LAY</th></tr>'+rows+'</table></div><div class="card"><p>Last Traded: <b>'+s[1].toFixed(2)+'</b></p><p>Momentum: 🔥 Developing &nbsp; Tempo: ⚡⚡</p><div class="controls"><button class="btn green" onclick="decide(\'BACK\')">BACK</button><button class="btn" onclick="decide(\'WAIT\')">WAIT</button><button class="btn red" onclick="decide(\'LAY\')">LAY</button></div></div>'}
-function decide(d){let s=S[si],ok=d===s[4];if(ok)xp+=25;document.getElementById("screen").innerHTML='<div class="hero"><h1>'+ (ok?"🎯 Trafiona decyzja":"🔎 Analiza decyzji")+'</h1><p>Twoja decyzja: <b>'+d+'</b></p></div><div class="card"><p>'+s[0]+': '+(ok?"rynek potwierdził kierunek.":"rynek pokazał, dlaczego warto poczekać na potwierdzenie.")+'</p><p><b>+'+(ok?25:0)+' XP</b></p><button class="btn green" onclick="si=(si+1)%3;show(\'sim\')">Następny scenariusz</button></div>'}
-show("home");
-</script></body></html>
+
+location.replace('Trader_Academy_V2_index.html');
+
+</script>
+
+</head>
+
+<body>
+
+Otwieranie Trader Academy PRO…
+
+</body>
+
+</html
