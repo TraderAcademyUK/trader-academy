@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071018">
+<title>Trader Academy PRO V2</title>
+<style>
+:root{--bg:#071018;--card:#0d1a24;--line:#203844;--text:#f4f7f8;--muted:#91a3ad;--green:#19e66f;--red:#ff5b6e;--gold:#f5bd32}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.app{min-height:100vh;padding-bottom:100px}.top{display:flex;justify-content:space-between;align-items:center;padding:22px 18px 12px;max-width:980px;margin:auto}
+.brand{font-size:27px;font-weight:850}.pro{font-size:13px;color:var(--gold);border:1px solid #9a7516;border-radius:12px;padding:5px 9px}
+.gear{background:#102630;border:1px solid var(--line);border-radius:18px;padding:13px;font-size:20px}
+main{max-width:980px;margin:auto;padding:0 16px}.hero{margin-top:8px;padding:27px 24px;border:1px solid #174653;border-radius:30px;background:linear-gradient(135deg,#082c25,#0c1c2a)}
+.hero h1{font-size:34px;margin:0 0 12px}.hero p{font-size:18px;line-height:1.45;margin:0 0 20px}
+button{font:inherit;cursor:pointer;color:inherit;border:0}.actions{display:flex;gap:10px;flex-wrap:wrap}
+.primary,.secondary,.buy,.sell,.danger{padding:14px 20px;border-radius:15px;font-weight:800}.primary{background:var(--green);color:#00170b}.secondary{background:#172c38;border:1px solid var(--line)}
+.buy{background:#0bbf5b}.sell{background:#9f2738}.danger{background:#3a1720;color:#ff9aa5}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:16px}.card{background:var(--card);border:1px solid var(--line);border-radius:25px;padding:20px}
+.label,.muted{color:var(--muted)}.big{font-size:38px;font-weight:850;margin:7px 0}.bar,.progress{height:10px;background:#162b34;border-radius:20px;overflow:hidden}.bar i,.progress i{display:block;height:100%;background:var(--green)}
+.section{margin-top:22px}.section h2{font-size:25px;margin:0 0 12px}.pill{font-size:12px;padding:6px 9px;border-radius:10px;background:#16353e;color:#a9bdc6}
+.lesson,.option,.row,.badge{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin:10px 0}
+.lesson{display:flex;justify-content:space-between;align-items:center;gap:10px}.lesson small{color:var(--muted)}
+.question{font-size:21px;font-weight:750;line-height:1.4;margin:12px 0 18px}.option{display:block;text-align:left;width:100%;background:#0d1a24}
+.option.correct{border-color:var(--green);background:#0d2b20}.option.wrong{border-color:var(--red);background:#32151d}
+.notice{padding:14px;border-radius:15px;background:#10252e;color:#bdd0d7;margin-top:12px}.feedback{border-radius:18px;padding:16px;margin-top:14px}.good{border:1px solid #1c8c58;background:#0c2b20}.bad{border:1px solid #8e3443;background:#30151c}
+.badge{display:inline-block;width:calc(50% - 14px);vertical-align:top;min-height:90px}.unlocked{border-color:#5a8f35}.locked{opacity:.45}
+.simhead,.score{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.price{font-size:34px;font-weight:850}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.controls label{display:block;color:var(--muted);font-size:13px;margin-bottom:5px}
+.controls input,.controls select{width:100%;background:#08141c;border:1px solid var(--line);color:white;border-radius:12px;padding:12px}
+.table{width:100%;border-collapse:collapse}.table td,.table th{padding:9px 4px;border-bottom:1px solid var(--line);text-align:left;font-size:13px}.green{color:var(--green)}.red{color:var(--red)}
+.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(7,16,24,.98);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);z-index:10;padding:8px 4px calc(8px + env(safe-area-inset-bottom))}
+.nav button{background:transparent;color:var(--muted);font-size:11px;font-weight:700;padding:5px 2px}.nav button b{display:block;font-size:22px}.nav button.active{color:var(--green)}
+.hide{display:none!important}.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#132d39;border:1px solid #315665;padding:12px 18px;border-radius:14px;z-index:30}
+.modal{position:fixed;inset:0;background:#000b;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px}.modalbox{width:min(560px,100%);background:var(--card);border:1px solid var(--line);border-radius:24px;padding:22px}.close{float:right;background:#172c38;border-radius:12px;padding:8px 12px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}.nav{left:50%;right:auto;transform:translateX(-50%);width:min(900px,100%);border-radius:20px 20px 0 0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">📈 Trader Academy <span class="pro">PRO</span></div><button class="gear" onclick="settings()">⚙️</button></header>
+<main id="screen"></main>
+<nav class="nav">
+<button data-id="home" onclick="show('home')"><b>🏠</b>Home</button>
+<button data-id="lessons" onclick="show('lessons')"><b>📚</b>Lekcje</button>
+<button data-id="training" onclick="startTraining()"><b>🎯</b>Trening</button>
+<button data-id="sim" onclick="show('sim')"><b>📊</b>Simulator</button>
+<button data-id="progress" onclick="show('progress')"><b>🏆</b>Postęp</button>
+<button data-id="community" onclick="show('community')"><b>👥</b>Community</button>
+</nav></div>
+<div id="toast" class="toast hide"></div><div id="modal" class="modal hide"></div>
+<script>
+const OLD="TA_V2",KEY="TA_V2_PRO";
+const base={xp:2350,lessons:[],correct:0,answered:0,balance:10000,price:100,position:null,trades:[],bestStreak:0};
+let s=JSON.parse(localStorage.getItem(KEY)||"null");
+if(!s){s={...base,...(JSON.parse(localStorage.getItem(OLD)||"null")||{})};localStorage.setItem(KEY,JSON.stringify(s))}
+let session=null;
+
+const lessonsData=[
+["Podstawy tradingu","Rynek, broker, Bid/Ask, spread i typy zleceń.","Trading to proces podejmowania decyzji. Bid, Ask i spread opisują podstawowe ceny rynku, a Market, Limit i Stop to różne sposoby składania zleceń."],
+["Świece japońskie","Open, High, Low, Close i czytanie świecy.","Każda świeca pokazuje Open, High, Low i Close. Korpus pokazuje relację otwarcia i zamknięcia, a knoty zakres ruchu."],
+["Trend i struktura rynku","HH/HL, LH/LL, wybicia i zmiana charakteru.","Trend wzrostowy tworzy Higher High i Higher Low, a spadkowy Lower High i Lower Low. Najpierw określ strukturę."],
+["Support & Resistance","Strefy reakcji ceny i potwierdzenie poziomu.","Support i resistance traktuj jako strefy możliwej reakcji, nie idealne linie. Szukaj potwierdzenia ceny."],
+["Risk Management","Ryzyko, SL, TP, wielkość pozycji i R:R.","SL ogranicza stratę, a wielkość pozycji powinna wynikać z akceptowanego ryzyka i odległości SL."],
+["Psychologia tradingu","FOMO, revenge trading, plan i dyscyplina.","FOMO to strach przed przegapieniem ruchu, a revenge trading to próba szybkiego odrobienia straty emocjonalną transakcją."]
+];
+
+const bank=[
+["Co najlepiej opisuje Stop Loss?",["Zlecenie ograniczające potencjalną stratę","Gwarantowany zysk","Opłata brokera","Rodzaj wskaźnika"],0,"SL jest narzędziem kontroli ryzyka."],
+["Co oznacza spread?",["Różnica między Bid i Ask","Wielkość depozytu","Poziom SL","Rodzaj świecy"],0,"Spread to różnica między Bid i Ask."],
+["Ryzyko £100 i potencjalny zysk £300 daje R:R:",["1:3","3:1","1:1","2:1"],0,"Jedna część ryzyka do trzech części potencjalnego zysku."],
+["FOMO to przede wszystkim:",["Strach przed przegapieniem ruchu","Kontrola ryzyka","Rodzaj zlecenia","Analiza fundamentalna"],0,"FOMO często prowadzi do wejścia bez planu."],
+["Trend wzrostowy typowo tworzy:",["Higher High i Higher Low","Lower High i Lower Low","Same szczyty","Brak korekt"],0,"HH i HL opisują typową strukturę wzrostową."],
+["Które zlecenie wykonuje transakcję po dostępnej cenie rynkowej?",["Market","Limit","Stop Loss","Take Profit"],0,"Market order jest wykonywany po najlepszej dostępnej cenie."],
+["Co powinno być ustalone przed wejściem?",["Ryzyko, SL, TP i warunek wejścia","Tylko potencjalny zysk","Tylko kolor świecy","Liczba obserwujących"],0,"Plan powinien istnieć przed kliknięciem wejścia."],
+["Przesuwanie SL dalej tylko po to, by uniknąć straty to problem:",["Dyscypliny i kontroli ryzyka","Spreadu","Płynności","Rodzaju świecy"],0,"Zmiana SL przeciwko planowi zwiększa ryzyko."],
+["Revenge trading to:",["Emocjonalna próba odrobienia straty","Handel po danych","Zamknięcie na TP","Demo trading"],0,"Po stracie trader może zwiększać ryzyko zamiast wrócić do procesu."],
+["Który R:R daje większy potencjalny zysk przy tym samym ryzyku?",["1:3","3:1","1:1","4:0"],0,"Przy tym samym ryzyku 1:3 daje większy potencjalny zysk."],
+["Support najlepiej traktować jako:",["Strefę możliwej reakcji ceny","Gwarantowane odbicie","Wskaźnik momentum","Rodzaj brokera"],0,"Rynek może przebić support."],
+["Po co prowadzić dziennik transakcji?",["Aby analizować proces i błędy","Aby gwarantować zysk","Aby zastąpić plan","Aby wyeliminować spread"],0,"Dziennik pokazuje powtarzalne błędy i dobre decyzje."],
+["Position sizing oznacza:",["Dobór wielkości pozycji do ryzyka","Wybór koloru wykresu","Ustawienie języka","Wybór brokera"],0,"Wielkość pozycji powinna być powiązana z ryzykiem."],
+["Co jest ważniejsze niż przewidywanie każdego ruchu?",["Powtarzalny proces i kontrola ryzyka","Zawsze racja","Duża dźwignia","Dużo transakcji"],0,"Nie trzeba przewidzieć wszystkiego, trzeba kontrolować ryzyko."],
+["Długi górny knot może wskazywać na:",["Odrzucenie wyższych cen","Gwarantowany spadek","Brak zmienności","Stały spread"],0,"Knot może pokazywać odrzucenie, ale potrzebny jest kontekst."],
+["Co pomaga ograniczyć FOMO?",["Plan i zasada „brak setupu = brak transakcji”","Większa pozycja","Więcej transakcji","Wyłączenie SL"],0,"Jasne warunki wejścia ułatwiają odpuszczenie niepełnego setupu."],
+["Jeśli SL jest dwa razy dalej, a ryzyko ma być takie samo, pozycja powinna:",["Zostać zmniejszona","Zostać podwojona","Zostać taka sama","Zostać zwiększona 4 razy"],0,"Większy dystans do SL wymaga mniejszej pozycji."],
+["Demo simulator służy przede wszystkim do:",["Ćwiczenia procesu bez ryzyka realnego kapitału","Gwarantowania wyniku","Handlu za prawdziwe pieniądze","Unikania dziennika"],0,"Demo pozwala ćwiczyć egzekucję bez realnej straty."],
+["„No trade” oznacza:",["Świadomą decyzję, gdy warunki nie są spełnione","Porażkę","Zakaz nauki","Zawsze stratę"],0,"Brak transakcji może być prawidłową decyzją."],
+["Najbardziej logiczna kolejność to:",["Kontekst → setup → ryzyko → wejście → zarządzanie","Wejście → ryzyko → kontekst","Zysk → wejście → SL","Losowa"],0,"Najpierw warunki i ryzyko, potem egzekucja."]
+];
+
+function save(){localStorage.setItem(KEY,JSON.stringify(s))}
+function addXP(n){s.xp+=n;save()}
+function level(){return Math.floor(s.xp/350)+1}
+function accuracy(){return s.answered?Math.round(s.correct/s.answered*100):0}
+function toast(t){let e=document.getElementById("toast");e.textContent=t;e.classList.remove("hide");clearTimeout(window.t);window.t=setTimeout(()=>e.classList.add("hide"),1700)}
+function nav(id){document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.id===id))}
+function show(id){nav(id);({home,lessons,sim,progress,community}[id]||home)();scrollTo(0,0)}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+
+function home(){
+document.getElementById("screen").innerHTML=`<section class="hero"><h1>Witaj w Trader Academy 👋</h1><p>Ucz się czytać rynek, ćwicz decyzje i buduj dyscyplinę — bez ryzyka prawdziwych pieniędzy.</p><div class="actions"><button class="primary" onclick="startTraining()">🎯 Rozpocznij trening</button><button class="secondary" onclick="lessons()">📚 Lekcje</button></div></section>
+<div class="grid"><div class="card"><div class="label">Poziom</div><div class="big">${level()}</div><b>${level()<10?"Timing Trader":level()<20?"Market Reader":level()<30?"Risk Manager":"Pro Trader"}</b></div>
+<div class="card"><div class="label">XP</div><div class="big">${s.xp}</div><div class="bar"><i style="width:${Math.round(s.xp%350/350*100)}%"></i></div></div>
+<div class="card"><div class="label">Celność</div><div class="big">${accuracy()}%</div><b>${s.correct}/${s.answered} poprawnych</b></div>
+<div class="card"><div class="label">Kapitał demo</div><div class="big">£${s.balance.toFixed(0)}</div><b>${s.trades.length} transakcji</b></div></div>
+<section class="section"><div class="card"><h2>🔥 Cel dnia</h2><p class="question">Zrób trening 10 pytań i spróbuj osiągnąć minimum 80%.</p><p class="muted">Nie liczy się liczba transakcji. Liczy się jakość decyzji i konsekwencja procesu.</p></div></section>`
+}
+
+function lessons(){
+document.getElementById("screen").innerHTML=`<section class="section"><h2>📚 Lekcje PRO</h2><p class="muted">Ukończone ${s.lessons.length}/6</p>${lessonsData.map((x,i)=>`<div class="lesson" onclick="lesson(${i})"><div><b>${i+1}. ${x[0]}</b><br><small>${x[1]}</small></div><span class="pill">${s.lessons.includes(i)?"✓ Ukończona":"+100 XP"}</span></div>`).join("")}</section>`
+}
+function lesson(i){
+let x=lessonsData[i];
+document.getElementById("screen").innerHTML=`<section class="section"><button class="secondary" onclick="lessons()">← Lekcje</button><div class="card" style="margin-top:12px"><span class="pill">LEKCJA ${i+1}/6</span><h2>${x[0]}</h2><p class="question">${x[2]}</p><div class="notice">💡 Zapamiętaj: analiza nie usuwa ryzyka — kontrola ryzyka ogranicza konsekwencje błędu.</div><h3>Checklist</h3><p class="muted">✓ Plan wejścia<br>✓ Ryzyko znane z góry<br>✓ Warunek wyjścia<br>✓ Brak decyzji pod wpływem emocji</p><button class="primary" onclick="doneLesson(${i})">${s.lessons.includes(i)?"✓ Ukończona":"Oznacz jako ukończoną +100 XP"}</button></div></section>`
+}
+function doneLesson(i){if(!s.lessons.includes(i)){s.lessons.push(i);addXP(100);toast("+100 XP 🎉")}lessons()}
+
+function startTraining(){
+nav("training");session={qs:shuffle(bank).slice(0,10),i:0,c:0,streak:0};renderQuestion();scrollTo(0,0)
+}
+function renderQuestion(){
+if(session.i>=10)return finishTraining();
+let q=session.qs[session.i];
+document.getElementById("screen").innerHTML=`<section class="section"><div class="card"><div class="score"><span class="pill">PYTANIE ${session.i+1}/10</span><span class="pill">🔥 Seria ${session.streak}</span></div><div class="question">${q[0]}</div>${q[1].map((x,i)=>`<button class="option" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${x}</button>`).join("")}<div class="notice">🎯 Myśl jak trader: proces i ryzyko przed potencjalnym zyskiem.</div></div></section>`
+}
+function answer(i){
+let q=session.qs[session.i],ok=i===q[2];
+document.querySelectorAll(".option").forEach((b,n)=>{b.disabled=true;if(n===q[2])b.classList.add("correct");if(n===i&&!ok)b.classList.add("wrong")});
+s.answered++;if(ok){s.correct++;session.c++;session.streak++;s.bestStreak=Math.max(s.bestStreak||0,session.streak);addXP(50)}else session.streak=0;save();
+let f=document.createElement("div");f.className="feedback "+(ok?"good":"bad");f.innerHTML=`<b>${ok?"✅ Dobrze! +50 XP":"❌ Błędna odpowiedź"}</b><p>${q[3]}</p><button class="${ok?"primary":"secondary"}" onclick="nextQuestion()">${session.i===9?"Zobacz wynik 🏆":"Następne pytanie →"}</button>`;
+document.querySelector("#screen .card").appendChild(f)
+}
+function nextQuestion(){session.i++;renderQuestion();scrollTo(0,0)}
+function finishTraining(){
+let c=session.c,bonus=c>=8?100:0;if(bonus)addXP(bonus);if(c===10){addXP(100);bonus+=100}
+toast(bonus?`Bonus +${bonus} XP 🎉`:"Trening zapisany");
+document.getElementById("screen").innerHTML=`<section class="section"><div class="card"><span class="pill">TRENING ZAKOŃCZONY</span><h2>${c===10?"🏆 Perfect 10":c>=8?"🥇 Elite Trader":c>=5?"🥈 Solid Trader":"📚 Keep Training"}</h2><div class="big">${c}/10</div><div class="progress"><i style="width:${c*10}%"></i></div><p class="question">Celność: ${c*10}%</p><div class="grid"><div class="card"><div class="label">Poprawne</div><div class="big">${c}</div></div><div class="card"><div class="label">Bonus XP</div><div class="big">+${bonus}</div></div></div><div class="actions"><button class="primary" onclick="startTraining()">🔄 Nowy trening</button><button class="secondary" onclick="show('progress')">🏆 Postęp</button></div></div></section>`;
+session=null;save()
+}
+
+function sim(){
+let p=s.price,pos=s.position;
+document.getElementById("screen").innerHTML=`<section class="section"><div class="card"><div class="simhead"><div><span class="pill">PAPER TRADING</span><div class="price">£${p.toFixed(2)}</div></div><div><div class="muted">Saldo demo</div><b style="font-size:24px">£${s.balance.toFixed(2)}</b></div></div><p class="muted">Symulator edukacyjny — bez prawdziwych pieniędzy.</p>
+<div class="controls"><div><label>Pozycja (£)</label><input id="size" type="number" value="500" min="10"></div><div><label>Ryzyko (%)</label><input id="risk" type="number" value="1" step=".1"></div><div><label>SL (%)</label><input id="sl" type="number" value="1" step=".1"></div><div><label>TP (%)</label><input id="tp" type="number" value="2" step=".1"></div><div><label>Kierunek</label><select id="dir"><option value="long">BUY / Long</option><option value="short">SELL / Short</option></select></div></div>
+<div class="notice">💡 Przy kapitale £${s.balance.toFixed(0)} i ryzyku 1% limit straty to około £${(s.balance*.01).toFixed(2)}.</div>
+<div class="actions" style="margin-top:12px"><button class="buy" onclick="openTrade()">BUY / OPEN</button><button class="sell" onclick="openTrade()">SELL / OPEN</button><button class="secondary" onclick="moveMarket()">Przesuń rynek ↗</button></div>
+${pos?`<div class="notice">📌 ${pos.dir.toUpperCase()} £${pos.size.toFixed(0)} @ £${pos.entry.toFixed(2)}<br>SL £${pos.sl.toFixed(2)} | TP £${pos.tp.toFixed(2)}<br>P/L: <b class="${profit()>=0?"green":"red"}">£${profit().toFixed(2)}</b><br><button class="primary" style="margin-top:10px" onclick="closeTrade()">Zamknij pozycję</button></div>`:"<div class=\"notice\">Brak otwartej pozycji. Ustaw parametry i otwórz demo trade.</div>"}</div></section>
+<section class="section"><div class="card"><h2>Historia</h2>${history()}</div></section>`
+}
+function history(){if(!s.trades.length)return '<p class="muted">Brak transakcji demo.</p>';return `<table class="table"><tr><th>Strona</th><th>Wejście</th><th>Wyjście</th><th>P/L</th></tr>${s.trades.slice().reverse().slice(0,10).map(t=>`<tr><td>${t.dir}</td><td>£${t.entry.toFixed(2)}</td><td>£${t.exit.toFixed(2)}</td><td class="${t.pnl>=0?"green":"red"}">£${t.pnl.toFixed(2)}</td></tr>`).join("")}</table>`}
+function openTrade(){if(s.position)return toast("Najpierw zamknij obecną pozycję.");let size=Math.max(10,+document.getElementById("size").value||500),sl=Math.max(.1,+document.getElementById("sl").value||1),tp=Math.max(.1,+document.getElementById("tp").value||2),dir=document.getElementById("dir").value,e=s.price;s.position={dir,size,entry:e,sl:dir==="long"?e*(1-sl/100):e*(1+sl/100),tp:dir==="long"?e*(1+tp/100):e*(1-tp/100)};save();toast("Pozycja demo otwarta 📊");sim()}
+function profit(){if(!s.position)return 0;let m=(s.price-s.position.entry)/s.position.entry;return s.position.dir==="long"?s.position.size*m:-s.position.size*m}
+function moveMarket(){let r=Math.random()*.04-.02;s.price=Math.max(1,s.price*(1+r));if(s.position){let p=s.position;if((p.dir==="long"&&(s.price<=p.sl||s.price>=p.tp))||(p.dir==="short"&&(s.price>=p.sl||s.price<=p.tp))){closeTrade(true);return}}save();toast(`Rynek ${r>=0?"+":""}${(r*100).toFixed(2)}%`);sim()}
+function closeTrade(auto=false){if(!s.position)return;let v=profit();s.balance+=v;s.trades.push({dir:s.position.dir,entry:s.position.entry,exit:s.price,pnl:v});s.position=null;save();toast(`${auto?"Auto-close: ":"Zamknięto: "}${v>=0?"+":""}£${v.toFixed(2)}`);sim()}
+
+function progress(){
+let b=[["🔥","Pierwszy trening",s.answered>0],["📚","Uczeń",s.lessons.length>=3],["🎯","Celność",s.bestStreak>=5],["📈","Trader",s.trades.length>=5],["🏆","Perfect 10",s.bestStreak>=10],["🧠","Risk Manager",s.trades.length>0]];
+document.getElementById("screen").innerHTML=`<section class="section"><h2>🏆 Twój postęp</h2><div class="grid"><div class="card"><div class="label">Poziom</div><div class="big">${level()}</div><b>${level()<10?"Timing Trader":level()<20?"Market Reader":level()<30?"Risk Manager":"Pro Trader"}</b></div><div class="card"><div class="label">XP</div><div class="big">${s.xp}</div><div class="progress"><i style="width:${Math.round(s.xp%350/350*100)}%"></i></div></div><div class="card"><div class="label">Lekcje</div><div class="big">${s.lessons.length}/6</div></div><div class="card"><div class="label">Celność</div><div class="big">${accuracy()}%</div></div></div><section class="section"><div class="card"><h2>🏅 Odznaki</h2>${b.map(x=>`<div class="badge ${x[2]?"unlocked":"locked"}\"><b>${x[0]} ${x[1]}</b><br><span class="muted">${x[2]?"ODBLOKOWANA ✓":"Jeszcze zablokowana"}</span></div>`).join("")}</div></section><section class="section"><div class="card"><h2>📊 Statystyki</h2><div class="row">Odpowiedzi: <b>${s.answered}</b></div><div class="row">Poprawne: <b>${s.correct}</b></div><div class="row">Najlepsza seria: <b>${s.bestStreak||0}</b></div><div class="row">Transakcje demo: <b>${s.trades.length}</b></div></div></section></section>`
+}
+function community(){
+document.getElementById("screen").innerHTML=`<section class="section"><h2>👥 Community</h2><div class="card"><span class="pill">TRADER ACADEMY</span><h2>Strefa dyscypliny</h2><p class="question">„Nie muszę złapać każdego ruchu. Muszę wykonać mój plan.”</p><div class="notice">📌 Zero obietnic gwarantowanego zysku. Dzielimy się procesem, analizą i błędami.</div></div><div class="card"><h3>💬 Tematy</h3><div class="row">Jak definiujesz dobry setup?</div><div class="row">Jak kontrolujesz FOMO?</div><div class="row">Jak wygląda Twój plan ryzyka?</div><div class="row">Czego nauczyła Cię ostatnia strata?</div></div></section>`
+}
+function settings(){
+let m=document.getElementById("modal");m.classList.remove("hide");m.innerHTML=`<div class="modalbox"><button class="close" onclick="closeModal()">✕</button><h2>⚙️ Ustawienia</h2><p class="muted">Postęp jest zapisywany lokalnie w tej przeglądarce.</p><div class="row">XP: <b>${s.xp}</b></div><div class="row">Poziom: <b>${level()}</b></div><div class="row">Lekcje: <b>${s.lessons.length}/6</b></div><button class="danger" onclick="resetApp()">Resetuj cały postęp</button><p class="muted" style="font-size:12px">Reset nie zmienia pliku na GitHubie.</p></div>`
+}
+function closeModal(){document.getElementById("modal").classList.add("hide")}
+function resetApp(){if(confirm("Na pewno usunąć cały lokalny postęp?")){localStorage.removeItem(KEY);localStorage.removeItem(OLD);location.reload()}}
+show("home");
+</script>
+</body>
+</html>
