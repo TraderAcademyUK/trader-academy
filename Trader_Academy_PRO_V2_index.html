@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#071018">
+<title>Trader Academy PRO V2</title>
+<style>
+:root{--bg:#071018;--card:#0c1b24;--card2:#102832;--line:#173b49;--text:#f4f7f8;--muted:#91a7b0;--green:#19e66d;--blue:#168cff;--red:#ff5261;--gold:#f5b91a}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+button{font:inherit;cursor:pointer}body{min-height:100vh}.app{max-width:980px;margin:auto;padding:20px 16px 100px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.brand{font-size:clamp(26px,7vw,42px);font-weight:900}.brand span{font-size:.45em;color:var(--gold);border:2px solid #8d6c12;border-radius:14px;padding:5px 10px;vertical-align:middle}.gear{width:62px;height:62px;border-radius:20px;background:var(--card2);border:1px solid var(--line);font-size:30px}
+.hero,.card,.stat{background:var(--card);border:1px solid var(--line);border-radius:28px}.hero{padding:28px;background:linear-gradient(135deg,#06322e,#0b1c26);border-color:#07576a}.hero h1{font-size:clamp(36px,9vw,60px);line-height:1.05;margin:0 0 18px}.hero p{font-size:clamp(18px,4vw,26px);line-height:1.45}.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{border:1px solid white;border-radius:18px;padding:15px 23px;background:var(--card2);color:white;font-weight:900}.green{background:var(--green);color:#00170a}.blue{color:#168cff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.stat{padding:22px;min-height:140px}.label,.muted{color:var(--muted);font-weight:800}.value{font-size:48px;font-weight:900;margin:7px 0}.bar{height:12px;background:#16333e;border-radius:20px}.bar i{display:block;height:100%;background:var(--green);border-radius:20px}.card{padding:22px;margin:14px 0}.lesson{width:100%;text-align:left;color:white;display:flex;justify-content:space-between;align-items:center;gap:12px}.lesson h3{margin:0 0 5px;font-size:21px}.lesson p{margin:0;color:var(--muted)}.pill{background:#123540;border-radius:14px;padding:11px 14px;font-weight:900;white-space:nowrap}.done{color:var(--green)}.question{font-size:27px;font-weight:900;margin:18px 0}.option{display:block;width:100%;text-align:left;color:#168cff;background:transparent;border:1px solid var(--line);border-radius:20px;padding:17px;margin:10px 0;font-weight:800}.hint{background:#102d38;color:#b9d1d8;border-radius:20px;padding:17px;margin-top:18px}.price{font-size:48px;font-weight:900}.input{width:100%;background:#071018;color:white;border:1px solid var(--line);border-radius:14px;padding:14px;margin:8px 0;font-size:18px}.tradegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.trade{padding:18px;border:1px solid white;border-radius:18px;font-weight:900}.buy{background:var(--green);color:#00170a}.sell{background:var(--red);color:white}.badges{display:grid;grid-template-columns:1fr 1fr;gap:12px}.badge{border:1px solid var(--line);border-radius:20px;padding:17px}.badge h3{margin:0 0 5px}.badge p{margin:0;color:var(--muted)}.nav{position:fixed;bottom:0;left:0;right:0;background:rgba(7,16,24,.97);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(6,1fr);z-index:10}.nav button{border:0;border-right:1px solid #d9e0e4;background:transparent;color:var(--muted);font-size:11px;font-weight:800;padding:7px 2px}.nav b{display:block;font-size:23px}.nav .active{color:var(--green)}.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#123c2a;border:1px solid var(--green);padding:12px 18px;border-radius:14px;z-index:30;font-weight:900}.hide{display:none}
+@media(max-width:600px){.app{padding:16px 13px 92px}.hero{padding:24px;border-radius:25px}.grid,.badges{gap:9px}.stat{padding:17px;border-radius:22px}.value{font-size:40px}.lesson{align-items:flex-start;flex-direction:column}.tradegrid{grid-template-columns:1fr}.nav button{font-size:10px}}
+</style>
+</head>
+<body>
+<div id="toast" class="toast hide"></div>
+<div class="app">
+<header class="top"><div class="brand">📈 Trader Academy <span>PRO</span></div><button class="gear" onclick="resetAll()">⚙️</button></header>
+<main id="screen"></main>
+</div>
+<nav class="nav">
+<button data-n="home" onclick="show('home')"><b>🏠</b>Home</button>
+<button data-n="lessons" onclick="show('lessons')"><b>📚</b>Lekcje</button>
+<button data-n="training" onclick="show('training')"><b>🎯</b>Trening</button>
+<button data-n="sim" onclick="show('sim')"><b>📊</b>Simulator</button>
+<button data-n="progress" onclick="show('progress')"><b>🏆</b>Postęp</button>
+<button data-n="community" onclick="show('community')"><b>👥</b>Community</button>
+</nav>
+<script>
+const lessons=[
+['Podstawy tradingu','Rynek, broker, Bid/Ask, spread i typy zleceń.','Trading to proces podejmowania decyzji na rynku. Poznaj Bid, Ask, spread oraz zlecenia Market, Limit i Stop.'],
+['Świece japońskie','Open, High, Low, Close i czytanie świecy.','Naucz się odczytywać OHLC, korpus i knoty oraz presję kupujących i sprzedających.'],
+['Trend i struktura rynku','HH/HL, LH/LL, wybicia i zmiana charakteru.','Rozpoznawaj trend wzrostowy, spadkowy i konsolidację.'],
+['Support & Resistance','Strefy reakcji ceny i potwierdzenie poziomu.','Szukaj stref, reakcji i potwierdzenia zamiast idealnej kreski.'],
+['Risk Management','Ryzyko, SL, TP, wielkość pozycji i R:R.','Najpierw określ maksymalną stratę. Dopiero później dobierz pozycję, SL, TP i R:R.'],
+['Psychologia tradingu','FOMO, revenge trading, plan i dyscyplina.','Dobry trader nie musi mieć racji w każdej transakcji. Musi konsekwentnie wykonywać plan.']
+];
+const qs=[
+['Co najlepiej opisuje Stop Loss?',['Zlecenie ograniczające potencjalną stratę','Gwarantowany zysk','Opłata brokera','Rodzaj wskaźnika'],0],
+['Co oznacza spread?',['Różnica między Bid i Ask','Wielkość pozycji','Prowizja miesięczna','Poziom Take Profit'],0],
+['Co jest przykładem trendu wzrostowego?',['HH i HL','LH i LL','Tylko spadek ceny','Brak kolejnych szczytów'],0],
+['Co powinno być określone przed wejściem?',['Ryzyko i plan wyjścia','Tylko potencjalny zysk','Losowy wskaźnik','Maksymalna liczba transakcji'],0],
+['Co pomaga ograniczyć revenge trading?',['Przerwa i trzymanie się planu','Zwiększenie pozycji','Natychmiastowa kolejna transakcja','Usunięcie Stop Loss'],0]
+];
+let st=JSON.parse(localStorage.getItem('TraderAcademyV2')||'null')||{xp:2450,done:[0],capital:10000,trades:0,correct:0};
+let qi=0,locked=false;
+function save(){localStorage.setItem('TraderAcademyV2',JSON.stringify(st))}
+function level(){return Math.floor(st.xp/300)+1}
+function rank(){let l=level();return l<4?'Nowicjusz':l<7?'Trader':l<10?'Timing Trader':l<14?'Disciplined Trader':'Market Master'}
+function toast(x){let t=document.getElementById('toast');t.textContent=x;t.classList.remove('hide');setTimeout(()=>t.classList.add('hide'),1700)}
+function show(p,i=0){
+ document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.n===p));
+ let s=document.getElementById('screen');
+ if(p==='home')s.innerHTML=home();
+ if(p==='lessons')s.innerHTML=list();
+ if(p==='lesson')s.innerHTML=lesson(i);
+ if(p==='training')s.innerHTML=training();
+ if(p==='sim')s.innerHTML=sim();
+ if(p==='progress')s.innerHTML=progress();
+ if(p==='community')s.innerHTML=community();
+ scrollTo(0,0)
+}
+function home(){let acc=st.trades?Math.round(st.correct/st.trades*100):0;return `<section class="hero"><h1>Witaj w Trader Academy 👋</h1><p>Ucz się czytać rynek, ćwicz decyzje i buduj dyscyplinę — bez ryzyka prawdziwych pieniędzy.</p><div class="actions"><button class="btn green" onclick="show('training')">🎯 Rozpocznij trening</button><button class="btn blue" onclick="show('lessons')">📚 Lekcje</button></div></section><div class="grid"><div class="stat"><div class="label">Poziom</div><div class="value">${level()}</div><b>${rank()}</b></div><div class="stat"><div class="label">XP</div><div class="value">${st.xp}</div><div class="bar"><i style="width:${(st.xp%300)/3}%"></i></div></div><div class="stat"><div class="label">Celność</div><div class="value">${acc}%</div><b>${st.correct} poprawnych</b></div><div class="stat"><div class="label">Kapitał demo</div><div class="value">£${Math.round(st.capital).toLocaleString()}</div><b>${st.trades} transakcji</b></div></div>`}
+function list(){return `<h2>📚 Lekcje</h2><p class="muted">Ukończone ${st.done.length}/${lessons.length}</p>${lessons.map((l,i)=>`<button class="card lesson" onclick="show('lesson',${i})"><div><h3>${i+1}. ${l[0]}</h3><p>${l[1]}</p></div><span class="pill ${st.done.includes(i)?'done':''}">${st.done.includes(i)?'✓ Ukończona':'+100 XP'}</span></button>`).join('')}`}
+function lesson(i){let l=lessons[i],ok=st.done.includes(i);return `<button class="btn blue" onclick="show('lessons')">← Lekcje</button><article class="card"><span class="pill">LEKCJA ${i+1}</span><h1>${l[0]}</h1><p style="font-size:22px;line-height:1.5;font-weight:700">${l[2]}</p><div class="hint">💡 Zapamiętaj: analiza nie usuwa ryzyka — kontrola ryzyka ogranicza konsekwencje błędu.</div><br><button class="btn green" onclick="complete(${i})">${ok?'✓ Ukończona':'Oznacz jako ukończoną +100 XP'}</button></article>`}
+function complete(i){if(!st.done.includes(i)){st.done.push(i);st.xp+=100;save();toast('+100 XP 🎉')}show('lesson',i)}
+function training(){let q=qs[qi];return `<div class="card"><span class="pill">PYTANIE ${qi+1}/5</span><div class="question">${q[0]}</div>${q[1].map((x,i)=>`<button class="option" onclick="answer(${i})">${String.fromCharCode(65+i)}. ${x}</button>`).join('')}<div class="hint">🎯 Myśl jak trader: proces i ryzyko przed potencjalnym zyskiem.</div></div>`}
+function answer(i){if(locked)return;locked=true;let q=qs[qi];let opts=document.querySelectorAll('.option');opts[q[2]].style.borderColor='var(--green)';if(i===q[2]){st.correct++;st.xp+=50;toast('+50 XP — poprawna odpowiedź')}else{opts[i].style.borderColor='var(--red)';toast('Nie tym razem')}st.trades++;save();setTimeout(()=>{qi=(qi+1)%qs.length;locked=false;show('training')},850)}
+function sim(){return `<h2>📊 Simulator</h2><div class="card"><div class="muted">Cena demo</div><div class="price">£${(100+(st.trades%7)*1.37).toFixed(2)}</div><div class="muted">Kapitał: £${Math.round(st.capital).toLocaleString()}</div></div><div class="card"><label>Wielkość pozycji (£)</label><input id="size" class="input" type="number" value="500" min="10"><div class="tradegrid"><button class="trade buy" onclick="trade(1)">BUY ↑</button><button class="trade sell" onclick="trade(-1)">SELL ↓</button></div></div><div class="card"><b>Tryb edukacyjny:</b> transakcje są symulowane i nie używają prawdziwych pieniędzy.</div>`}
+function trade(dir){let n=Number(document.getElementById('size').value)||500;let r=(Math.random()-.46)*n*.08*dir;st.capital+=r;st.trades++;if(r>0){st.correct++;st.xp+=30}else st.xp+=10;save();toast((r>=0?'+':'')+'£'+r.toFixed(2));show('sim')}
+function progress(){let a=st.trades?Math.round(st.correct/st.trades*100):0;return `<h2>🏆 Twój postęp</h2><div class="grid"><div class="stat"><div class="label">Poziom</div><div class="value">${level()}</div><b>${rank()}</b></div><div class="stat"><div class="label">XP</div><div class="value">${st.xp}</div></div><div class="stat"><div class="label">Lekcje</div><div class="value">${st.done.length}/6</div></div><div class="stat"><div class="label">Celność</div><div class="value">${a}%</div></div></div><div class="card"><h2>🏅 Odznaki</h2><div class="badges"><div class="badge"><h3>🔥 Pierwszy trening</h3><p>${st.trades?'Zdobyta':'Zablokowana'}</p></div><div class="badge"><h3>📚 Uczeń</h3><p>${st.done.length>=3?'Zdobyta':'Ukończ 3 lekcje'}</p></div><div class="badge"><h3>🎯 Celność</h3><p>${st.correct>=5?'Zdobyta':'Zdobądź 5 poprawnych'}</p></div><div class="badge"><h3>📈 Trader</h3><p>${st.trades>=5?'Zdobyta':'Wykonaj 5 transakcji demo'}</p></div></div></div>`}
+function community(){return `<h2>👥 Community</h2><div class="card"><h2>Trader Academy Community</h2><p class="muted" style="font-size:18px;line-height:1.5">Miejsce na ranking, wyzwania, dziennik transakcji i wspólne cele. Moduł jest przygotowany do dalszej rozbudowy.</p></div>`}
+function resetAll(){if(confirm('Zresetować postęp demo?')){st={xp:2450,done:[0],capital:10000,trades:0,correct:0};save();show('home');toast('Postęp zresetowany')}}
+show('home');
+</script>
+</body>
+</html>
