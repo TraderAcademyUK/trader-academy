@@ -178,11 +178,23 @@ function trueRange(a,b){return Math.max(a.h-a.l,Math.abs(a.h-b.c),Math.abs(a.l-b
 
 function pickRegime(force){
   if(!force && engine.phase<35 && rng()>.045)return;
-  let r=rng();
- engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
+ let r=rng();
 
-  engine.phase=0;
-  engine.trend=(rng()-.5)*.06;
+engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
+
+engine.breakoutDir = engine.regime === 'BREAKOUT'
+    ? (r < .78 ? -1 : 1)
+    : 0;
+
+engine.phase=0;
+
+const rawTrend=(rng()-.5)*.06;
+engine.trend=engine.regime === 'BREAKOUT'
+    ? engine.breakoutDir * Math.abs(rawTrend)
+    : rawTrend;
+
+engine.vol=frame===1?.20:frame===5?.30:frame===15?.42:.58;
+engine.anchor=price;
   engine.breakoutDir = engine.regime === 'BREAKOUT'
     ? (Math.sign(engine.trend) || 1)
     : 0;
