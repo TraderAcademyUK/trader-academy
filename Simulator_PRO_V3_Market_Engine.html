@@ -254,7 +254,7 @@ function tick(){
   let a=makeCandle(p,drift,engine.vol);
   last.c=a.c;last.h=Math.max(last.h,a.h);last.l=Math.min(last.l,a.l);last.volume=a.volume;
   if(rng()<.72){
-    candles.push({o:a.c,h:a.c,l:a.c,c:a.c,volume:60+Math.random()*120});
+    candles.push({o:a.c,h:a.c,l:a.c,c:a.c,volume:60+rng()*120});
     if(candles.length>140)candles.shift();
   }
   price=a.c;updateMarketMeta();checkPosition();draw();calc();render();
