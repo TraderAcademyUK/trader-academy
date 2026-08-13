@@ -176,10 +176,10 @@ function trueRange(a,b){return Math.max(a.h-a.l,Math.abs(a.h-b.c),Math.abs(a.l-b
 
 function pickRegime(force){
   if(!force && engine.phase<35 && Math.random()>.045)return;
-  let r=Math.random();
+  let r=rng();
   engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
   engine.phase=0;
-  engine.trend=(Math.random()-.5)*.06;
+  engine.trend=(rng()-.5)*.06;
   engine.vol=frame===1?.20:frame===5?.30:frame===15?.42:.58;
   engine.anchor=price;
   const labels={TREND:'Trend',RANGE:'Konsolidacja',BREAKOUT:'Breakout',REVERSAL:'Reversal'};
@@ -200,14 +200,14 @@ function updateMarketMeta(){
 function makeCandle(p,drift,vol){
   let o=p;
   let move=drift+randn()*vol;
-  if(Math.random()<.035){engine.news=3+Math.random()*4;move+=randn()*vol*3}
+  if(rng()<.035){engine.news=3+rng()*4;move+=randn()*vol*3}
   let c=Math.max(.1,o+move);
-  let wick=(.35+Math.random())*vol+Math.abs(move)*.25;
-  return {o,h:Math.max(o,c)+Math.random()*wick,l:Math.min(o,c)-Math.random()*wick,c,volume:80+Math.random()*180+Math.abs(move)*360};
+  let wick=(.35+rng())*vol+Math.abs(move)*.25;
+  return {o,h:Math.max(o,c)+rng()*wick,l:Math.min(o,c)-rng()*wick,c,volume:80+rng()*180+Math.abs(move)*360};
 }
 
 function seed(){
-  stopTimer();candles=[];price=100;engine.phase=0;marketClock=Math.floor(Math.random()*1440);pickRegime(true);
+  stopTimer();candles=[];price=100;engine.phase=0;marketClock=Math.floor(rng()*1440);pickRegime(true);
   let p=price;
   for(let i=0;i<130;i++){
     if(i>0&&i%38===0)pickRegime(true);
@@ -220,7 +220,7 @@ function seed(){
       drift=clamp((center-p)*.075+randn()*.018,-.09,.09);
     }else if(engine.regime==='BREAKOUT'){
       engine.trend=clamp(engine.trend+randn()*.016,-.18,.18);
-      drift=engine.trend+(Math.random()<.08?Math.sign(engine.trend||1)*engine.vol*1.5:0);
+      drift=engine.trend+(rng()<.08?Math.sign(engine.trend||1)*engine.vol*1.5:0);
     }else{
       engine.trend=clamp(-engine.trend*.82+randn()*.018,-.16,.16);
       drift=engine.trend;
@@ -235,7 +235,7 @@ function tick(){
   marketClock=(marketClock+frame)%1440;
   engine.phase++;
   if(engine.news>0)engine.news--;
-  if(engine.phase>35&&Math.random()<.045){pickRegime(false);toast('Zmiana struktury rynku: '+$('regime').textContent)}
+  if(engine.phase>35&&rng()<.045){pickRegime(false);toast('Zmiana struktury rynku: '+$('regime').textContent)}
   let last=candles[candles.length-1],p=last.c;
   let mean=avg(24),drift;
   if(engine.regime==='RANGE'){
@@ -246,14 +246,14 @@ function tick(){
     drift=engine.trend+(mean-p)*.025;
   }else if(engine.regime==='BREAKOUT'){
     engine.trend=clamp(engine.trend+randn()*.015,-.18,.18);
-    drift=engine.trend+(Math.random()<.06?Math.sign(engine.trend||1)*engine.vol*.9:0);
+    drift=engine.trend+(rng()<.06?Math.sign(engine.trend||1)*engine.vol*.9:0);
   }else{
     engine.trend=clamp(engine.trend+randn()*.010,-.14,.14);
     drift=engine.trend+(mean-p)*.012;
   }
   let a=makeCandle(p,drift,engine.vol);
   last.c=a.c;last.h=Math.max(last.h,a.h);last.l=Math.min(last.l,a.l);last.volume=a.volume;
-  if(Math.random()<.72){
+  if(rng()<.72){
     candles.push({o:a.c,h:a.c,l:a.c,c:a.c,volume:60+Math.random()*120});
     if(candles.length>140)candles.shift();
   }
