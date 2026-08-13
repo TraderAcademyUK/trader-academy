@@ -153,9 +153,11 @@ let engine={
   vol:.25,
   phase:0,
   anchor:100,
+  breakoutDir:0,
   session:'London',
   news:0
 };
+  
 const $=id=>document.getElementById(id);
 
 function money(n){return '£'+Number(n||0).toLocaleString('en-GB',{minimumFractionDigits:2,maximumFractionDigits:2})}
