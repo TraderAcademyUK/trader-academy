@@ -255,7 +255,9 @@ function tick(){
     drift=engine.trend+(mean-p)*.025;
   }else if(engine.regime==='BREAKOUT'){
     engine.trend=clamp(engine.trend+randn()*.015,-.18,.18);
-    drift=engine.trend+(rng()<.06?Math.sign(engine.trend||1)*engine.vol*.9:0);
+    drift=engine.trend+(engine.regime==='BREAKOUT'
+  ? engine.breakoutDir*engine.vol*.9
+  : (rng()<.06?Math.sin(engine.trend||1)*engine.vol*.9:0));
   }else{
     engine.trend=clamp(engine.trend+randn()*.010,-.14,.14);
     drift=engine.trend+(mean-p)*.012;
