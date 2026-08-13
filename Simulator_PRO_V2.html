@@ -118,8 +118,8 @@ function line(x,v,min,max,pad,scale,col,label){let y=pad+(max-v)*scale;x.strokeS
 function calc(){
 let cap=st.capital,risk=Math.max(.1,Number($('risk').value)||1),sl=Math.max(.1,Number($('slPct').value)||1),tp=Math.max(.1,Number($('tpPct').value)||2),size=Math.max(10,Number($('size').value)||10);
 let riskMoney=cap*risk/100,rr=tp/sl;
-$('riskMoney').textContent=money(Math.min(riskMoney,size*sl/100));
-$('rewardMoney').textContent=money(Math.min(size*tp/100,riskMoney*rr));
+$('riskMoney').textContent=money(riskMoney);
+$('rewardMoney').textContent=money(riskMoney*rr);
 $('rr').textContent=rr.toFixed(2)
 }
 function openTrade(side){
