@@ -183,7 +183,7 @@ function pickRegime(force){
 
 
 engine.breakoutDir = engine.regime === 'BREAKOUT'
-    ? (r < .78 ? -1 : 1)
+   ? (r < .5 ? -1 : 1)
     : 0;
 
 engine.phase=0;
