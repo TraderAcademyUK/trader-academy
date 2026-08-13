@@ -180,7 +180,9 @@ function pickRegime(force){
   if(!force && engine.phase<35 && rng()>.045)return;
   let r=rng();
  engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
-
+engine.breakoutDir = engine.regime === 'BREAKOUT'
+  ? (rng() < 0.5 ? 1 : -1)
+  : 0;
 engine.breakoutDir =
   engine.regime==='BREAKOUT'
     ? (rng()<.5 ? -1 : 1)
