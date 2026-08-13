@@ -117,7 +117,7 @@ if(st.position){let p=st.position;line(x,p.sl,min,max,pad,scale,'#ff5261','SL');
 function line(x,v,min,max,pad,scale,col,label){let y=pad+(max-v)*scale;x.strokeStyle=col;x.setLineDash([6,4]);x.beginPath();x.moveTo(0,y);x.lineTo(x.canvas.width,y);x.stroke();x.setLineDash([]);x.fillStyle=col;x.font='bold 11px system-ui';x.fillText(label,7,y-4)}
 function calc(){
 let cap=st.capital,risk=Math.max(.1,Number($('risk').value)||1),sl=Math.max(.1,Number($('slPct').value)||1),tp=Math.max(.1,Number($('tpPct').value)||2),size=Math.max(10,Number($('size').value)||10);
-let riskMoney=cap*risk/100,rr=tp/sl;
+let riskMoney=Math.min(cap*risk/100,size*sl/100),rr=tp/sl;
 $('riskMoney').textContent=money(riskMoney);
 $('rewardMoney').textContent=money(riskMoney*rr);
 $('rr').textContent=rr.toFixed(2)
