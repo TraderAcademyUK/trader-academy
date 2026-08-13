@@ -184,6 +184,7 @@ engine.regime =
     r < .62 ? 'RANGE' :
     r < .88 ? 'BREAKOUT' :
     'REVERSAL';
+  
 engine.breakoutDir = engine.regime === 'BREAKOUT'
    ? (r < .78 ? -1 : 1)
     : 0;
