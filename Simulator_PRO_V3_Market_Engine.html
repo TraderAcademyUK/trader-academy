@@ -179,7 +179,12 @@ function trueRange(a,b){return Math.max(a.h-a.l,Math.abs(a.h-b.c),Math.abs(a.l-b
 function pickRegime(force){
   if(!force && engine.phase<35 && rng()>.045)return;
   let r=rng();
-  engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
+ engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
+
+engine.breakoutDir =
+  engine.regime==='BREAKOUT'
+    ? (rng()<.5 ? -1 : 1)
+    : 0;
   engine.phase=0;
   engine.trend=(rng()-.5)*.06;
   engine.vol=frame===1?.20:frame===5?.30:frame===15?.42:.58;
