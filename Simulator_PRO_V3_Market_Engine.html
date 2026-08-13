@@ -195,9 +195,7 @@ engine.trend=engine.regime === 'BREAKOUT'
 
 engine.vol=frame===1?.20:frame===5?.30:frame===15?.42:.58;
 engine.anchor=price;
-  engine.breakoutDir = engine.regime === 'BREAKOUT'
-    ? (Math.sign(engine.trend) || 1)
-    : 0;
+ 
   engine.vol=frame===1?.20:frame===5?.30:frame===15?.42:.58;
   engine.anchor=price;
   const labels={TREND:'Trend',RANGE:'Konsolidacja',BREAKOUT:'Breakout',REVERSAL:'Reversal'};
