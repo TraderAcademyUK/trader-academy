@@ -227,7 +227,9 @@ function seed(){
       drift=clamp((center-p)*.075+randn()*.018,-.09,.09);
     }else if(engine.regime==='BREAKOUT'){
       engine.trend=clamp(engine.trend+randn()*.016,-.18,.18);
-      drift=engine.trend+(rng()<.08?Math.sign(engine.trend||1)*engine.vol*1.5:0);
+      drift=engine.trend+(engine.regime==='BREAKOUT'
+  ? engine.breakoutDir*engine.vol*1.5
+  : (rng()<.08?Math.sin(engine.trend||1)*engine.vol*1.5:0));
     }else{
       engine.trend=clamp(-engine.trend*.82+randn()*.018,-.16,.16);
       drift=engine.trend;
