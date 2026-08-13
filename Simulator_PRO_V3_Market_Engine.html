@@ -175,7 +175,7 @@ function avg(n=20){let a=candles.slice(-n);return a.length?a.reduce((s,x)=>s+x.c
 function trueRange(a,b){return Math.max(a.h-a.l,Math.abs(a.h-b.c),Math.abs(a.l-b.c))}
 
 function pickRegime(force){
-  if(!force && engine.phase<35 && Math.random()>.045)return;
+  if(!force && engine.phase<35 && rng()>.045)return;
   let r=rng();
   engine.regime=r<.40?'TREND':r<.68?'RANGE':r<.88?'BREAKOUT':'REVERSAL';
   engine.phase=0;
