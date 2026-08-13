@@ -153,7 +153,7 @@ if(!st.history.length)h.innerHTML='<div class="muted">Brak zamkniętych transakc
 else h.innerHTML='<table><tr><th>Typ</th><th>Entry</th><th>Exit</th><th>Powód</th><th>P&L</th></tr>'+st.history.map(x=>'<tr><td>'+x.side+'</td><td>'+x.entry.toFixed(2)+'</td><td>'+x.exit.toFixed(2)+'</td><td><span class="badge '+(x.pnl>=0?'win':'lose')+'">'+x.reason+'</span></td><td class="'+(x.pnl>=0?'profit':'loss')+'">'+money(x.pnl)+'</td></tr>').join('')+'</table>'
 }
 function resetSim(){if(!confirm('Resetować kapitał i historię simulatora?'))return;st={capital:10000,history:[],position:null,net:0};save();seed();render();calc();toast('Simulator zresetowany')}
-window.addEventListener('resize',draw);seed();render();calc();setInterval(tick,1200);
+window.addEventListener('resize',draw);seed();render();calc();setTimeout(()=>draw(),500);setTimeout(()=>draw(),1200);setInterval(tick,1200);
 </script>
 </body>
 </html>
