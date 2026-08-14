@@ -218,11 +218,52 @@ function updateMarketMeta(){
 
 function makeCandle(p,drift,vol){
   let o=p;
-  let move=drift+randn()*vol;
-  if(rng()<.035){engine.news=3+rng()*4;move+=randn()*vol*3}
-  let c=Math.max(.1,o+move);
-  let wick=(.35+rng())*vol+Math.abs(move)*.25;
-  return {o,h:Math.max(o,c)+rng()*wick,l:Math.min(o,c)-rng()*wick,c,volume:80+rng()*180+Math.abs(move)*360};
+
+  const breakout =
+    engine.regime === 'BREAKOUT' &&
+    engine.breakoutDir !== 0;
+
+  // Normalny ruch + losowość
+  let noise = randn() * vol;
+
+  // BREAKOUT: ograniczamy noise, żeby kierunek
+  // wynikający z driftu pozostał dominujący.
+  if(breakout){
+    noise *= .45;
+  }
+
+  let move = drift + noise;
+
+  // News
+  if(rng()<.035){
+    engine.news = 3 + rng()*4;
+
+    let newsMove = randn() * vol;
+
+    if(breakout){
+      // News nadal może zrobić przeciwną świecę,
+      // ale nie może całkowicie zdominować breakout.
+      newsMove *= .75;
+    }else{
+      newsMove *= 3;
+    }
+
+    move += newsMove;
+  }
+
+  let c = Math.max(.1,o+move);
+
+  let wick =
+    (.35+rng())*vol +
+    Math.abs(move)*.25;
+
+  return {
+    o,
+    h:Math.max(o,c)+rng()*wick,
+    l:Math.min(o,c)-rng()*wick,
+    c,
+    volume:80+rng()*180+Math.abs(move)*360
+  };
 }
 
 function seed(){
