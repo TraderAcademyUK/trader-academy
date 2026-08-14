@@ -285,9 +285,16 @@ function seed(){
     }else if(engine.regime==='RANGE'){
       let center=engine.anchor;
       drift=clamp((center-p)*.075+randn()*.018,-.09,.09);
-    }else if(engine.regime==='BREAKOUT'){
-   engine.trend=clamp(engine.trend+randn()*.016,-.18,.18);
-drift=engine.trend+engine.breakoutDir*engine.vol*1.5;
+   }else if(engine.regime==="BREAKOUT"){
+  engine.trend=clamp(
+    engine.trend + randn()*.006,
+    -.18,
+    .18
+  );
+
+  drift =
+    engine.breakoutDir * engine.vol * 1.5
+    + engine.trend * .25;
     }else{
       engine.trend=clamp(-engine.trend*.82+randn()*.018,-.16,.16);
       drift=engine.trend;
